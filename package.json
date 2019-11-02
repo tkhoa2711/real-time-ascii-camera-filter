@@ -1,0 +1,14 @@
+{
+  "name": "ascii-camera-filter",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "serve": "serve src/"
+  },
+  "author": "Khoa Le",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "serve": "^11.1.0"
+  }
+}
