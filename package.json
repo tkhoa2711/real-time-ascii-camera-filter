@@ -1,14 +1,18 @@
 {
   "name": "ascii-camera-filter",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "index.js",
+  "description": "A real-time ASCII camera filter",
+  "homepage": "https://tkhoa2711.github.io/blog-real-time-ascii-camera-filter",
   "scripts": {
+    "deploy": "gh-pages --dist src",
     "serve": "serve src/"
   },
   "author": "Khoa Le",
   "license": "MIT",
   "private": true,
   "devDependencies": {
+    "gh-pages": "^2.1.1",
     "serve": "^11.1.0"
   }
 }
