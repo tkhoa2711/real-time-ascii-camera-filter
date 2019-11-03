@@ -8,7 +8,11 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <video id="camera-stream" class="middle-page"></video>
+  <div class="container">
+    <video id="camera-stream"></video>
+    <canvas id="hidden-canvas"></canvas>
+    <canvas id="output-canvas"></canvas>
+  </div>
 
   <script src="./app.js"></script>
 </body>
