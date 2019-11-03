@@ -15,19 +15,61 @@ const constraints = {
   },
 };
 
+const getAverageRGB = (frame) => {
+  const length = frame.data.length / 4;
+
+  let r = 0;
+  let g = 0;
+  let b = 0;
+
+  for (let i = 0; i < length; i++) {
+    r += frame.data[i * 4 + 0];
+    g += frame.data[i * 4 + 1];
+    b += frame.data[i * 4 + 2];
+  }
+
+  return {
+    r: r / length,
+    g: g / length,
+    b: b / length,
+  };
+};
+
 const processFrame = () => {
+  const fontHeight = 12;
   const { videoWidth: width, videoHeight: height } = video;
 
   if (width && height) {
+    // setup canvases' size
     hiddenCanvas.width = width;
     hiddenCanvas.height = height;
     outputCanvas.width = width;
     outputCanvas.height = height;
-    hiddenContext.drawImage(video, 0, 0, width, height);
 
     // get frame from hiddenContext
-    // apply filter
+    hiddenContext.drawImage(video, 0, 0, width, height);
+
+    // NOTE: we choose Consolas because it's a monospace font
+    // and to avoid varible character width, which makes calculation difficult
+    outputContext.textBaseline = 'top';
+    outputContext.font = `${fontHeight}px Consolas`;
+
+    const text = outputContext.measureText('@');
+    const fontWidth = parseInt(text.width);
+
     // draw outputContext
+    outputContext.clearRect(0, 0, width, height);
+
+    for (let y = 0; y < height; y += fontHeight) {
+      for (let x = 0; x < width; x += fontWidth) {
+        const frameSection = hiddenContext.getImageData(x, y, fontWidth, fontHeight);
+        const { r, g, b } = getAverageRGB(frameSection);
+
+        // apply filter
+        outputContext.fillStyle = `rgb(${r},${g},${b})`;
+        outputContext.fillRect(x, y, fontWidth, fontHeight);
+      }
+    }
   }
 
   window.requestAnimationFrame(processFrame);
