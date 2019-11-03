@@ -8,6 +8,8 @@ const outputCanvas = document.querySelector('#output-canvas');
 const hiddenContext = hiddenCanvas.getContext('2d');
 const outputContext = outputCanvas.getContext('2d');
 
+const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&()/\\+<>';
+
 const constraints = {
   video: {
     width: 512,
@@ -64,10 +66,11 @@ const processFrame = () => {
       for (let x = 0; x < width; x += fontWidth) {
         const frameSection = hiddenContext.getImageData(x, y, fontWidth, fontHeight);
         const { r, g, b } = getAverageRGB(frameSection);
+        const randomCharacter = charset[Math.floor(Math.random() * charset.length)];
 
         // apply filter
         outputContext.fillStyle = `rgb(${r},${g},${b})`;
-        outputContext.fillRect(x, y, fontWidth, fontHeight);
+        outputContext.fillText(randomCharacter, x, y);
       }
     }
   }
